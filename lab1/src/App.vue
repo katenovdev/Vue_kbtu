@@ -1,22 +1,19 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from "./components/Header.vue";
+import Images from "./components/Images.vue";
 </script>
 
 <template>
-TASK 1 WILL BE HERE
+  <Header />
+  <div class="container">
+    <Images />
+  </div>
+
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.container {
+  background: rgba(226, 225, 225, 0.267);
+  height: 100vh;
 }
 </style>
