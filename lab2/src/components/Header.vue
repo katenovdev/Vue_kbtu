@@ -2,12 +2,18 @@
 import burger from "@/assets/burger.svg"
 import profile from "@/assets/profile.svg"
 
+const emit = defineEmits(['toggle']);
+
+const toggleClass = () => {
+  emit('toggle'); 
+}
+
 </script>
 
 <template>
   <div class="header-background">
     <div class="flexer">
-      <div class="flexer_1"><img :src="burger"></img></div>
+      <div @click="toggleClass" class="flexer_1"><img :src="burger"></img></div>
       <div>
         <div class="flexer_2">
           New trips on Fall season! Full details on our Instagram accounts.
@@ -31,6 +37,12 @@ import profile from "@/assets/profile.svg"
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
+}
+
+.flexer_1:hover {
+  transition: .4s;
+  cursor: pointer;
+
 }
 
 .flexer_2 {
