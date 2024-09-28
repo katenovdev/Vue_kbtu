@@ -18,6 +18,15 @@ export const people = [
     Topic: "Adventure",
   },
   {
+    id: 26,
+    PersonName: "LOL LOL",
+    Avatar: "profile2.svg",
+    PubDate: "2023-08-22",
+    Rating: 1.8,
+    Commentary: "Decent product, but shipping took too long.",
+    Topic: "Adventure",
+  },
+  {
     id: 3,
     PersonName: "Alice Johnson",
     Avatar: "profile3.svg",

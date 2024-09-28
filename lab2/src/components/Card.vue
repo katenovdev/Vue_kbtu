@@ -1,30 +1,43 @@
 <script setup>
 import star from "@/assets/star.svg";
-import { defineProps } from 'vue';
+import { defineProps } from "vue";
 import profile1 from "@/assets/profile1.svg";
 import profile2 from "@/assets/profile2.svg";
 import profile3 from "@/assets/profile3.svg";
 import profile4 from "@/assets/profile4.svg";
 
 const props = defineProps({
-    name:  {
-    type: String,
-    required: true
+  id: {
+    type: Number,
+    required: true,
   },
-            avatar: {
+  name: {
     type: String,
-    required: true
+    required: true,
   },
-            pubDate:  {
+  avatar: {
     type: String,
-    required: true
+    required: true,
   },
-            comment:  {
+  pubDate: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
+  comment: {
+    type: String,
+    required: true,
+  },
+  rating: {
+    type: String,
+    required: true,
+  },
 });
 
+const emit = defineEmits(["like"]);
+
+const like = (id) => {
+  emit("like", id);
+};
 </script>
 
 <template>
@@ -38,18 +51,20 @@ const props = defineProps({
         <div class="rating">
           <div>Rating</div>
           <div class="stars">
-          <div v-for="item in [1,2,3,4,5]">
-             <img :src="star"></img> 
-          </div>
+            <div v-for="item in [1, 2, 3, 4, 5]">
+              <span :class="item <= props.rating ? 'selectedstar' : ''"
+                >★</span
+              >
+            </div>
           </div>
         </div>
         <div class="photo">
-            <img :src="profile1" />
+          <img :src="profile1" />
         </div>
       </div>
       <div class="card-comment">{{ props.comment }}</div>
       <div class="card-like">
-        <div class="like">LIKE</div>
+        <div @click="like(props.id)" class="like">LIKE</div>
       </div>
     </div>
   </div>
@@ -75,7 +90,7 @@ const props = defineProps({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem; 
+  gap: 2rem;
 }
 
 .person {
@@ -92,46 +107,50 @@ const props = defineProps({
 }
 
 .rating {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.4rem;
-    font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  font-size: 20px;
 }
 
 .stars {
-    display: flex;
-    flex-direction: row !important;
-    gap: 0.3rem;
+  display: flex;
+  flex-direction: row !important;
+  gap: 0.3rem;
 }
 
 .card-comment {
-    margin-top: 0.4rem;
-    font-size: 20px;
-    font-weight: 700;
-    display: flex;
-    flex-wrap: wrap;
+  margin-top: 0.4rem;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .card-like {
-    display: flex;
-    justify-content: flex-end;
-    margin: 0.5rem 0;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.5rem 0;
 }
 
 .like {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    background-color: rgba(67, 239, 39, 1);
-    padding: 0.2rem 1rem;
-    font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background-color: rgba(67, 239, 39, 1);
+  padding: 0.2rem 1rem;
+  font-weight: 700;
+}
+
+.selectedstar {
+  color: gold !important;
 }
 
 .like:hover {
-    transition: .4s;
-    cursor: pointer;
+  transition: 0.4s;
+  cursor: pointer;
 }
 </style>

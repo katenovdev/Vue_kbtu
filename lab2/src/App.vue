@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import Header from "@/components/Header.vue";
 import unknown from "@/assets/unknown.svg";
 import triangle from "@/assets/triangle.svg";
@@ -9,26 +9,76 @@ import Menu from "@/components/Menu.vue";
 import { people } from "@/composable/person.js";
 
 const isMenuVisible = ref(false);
-
-const list = ref();
-
-const init = () => {
-  list.value = people.filter((item) => item.Topic == "Adventure");
-};
+const isDropdownVisible = ref(false); 
+const list = ref([]);
+const currentPage = ref(1);
+const itemsPerPage = 4; 
 
 const topic = ref("Adventure");
+const currentSort = ref("Date"); 
+
+const sortList = () => {
+  if (currentSort.value === "Date") {
+    list.value.sort((a, b) => new Date(b.PubDate) - new Date(a.PubDate));
+  } else if (currentSort.value === "Rating") {
+    list.value.sort((a, b) => b.Rating - a.Rating);
+  }
+};
+
+const init = () => {
+  list.value = people.filter((item) => item.Topic === "Adventure");
+  sortList(); 
+};
 
 init();
+
+const paginatedList = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return list.value.slice(start, end);
+});
+
+const totalPages = computed(() => {
+  return Math.ceil(list.value.length / itemsPerPage);
+});
 
 const handleToggle = () => {
   isMenuVisible.value = !isMenuVisible.value;
 };
 
-const handleFilter = (filter) => {
-  list.value = people.filter((item) => item.Topic == filter);
-  isMenuVisible.value = !isMenuVisible.value;
-  topic.value = filter;
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value += 1;
+  }
 };
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value -= 1;
+  }
+};
+
+const toggleDropdown = () => {
+  isDropdownVisible.value = !isDropdownVisible.value;
+};
+
+const sortByPubDate = () => {
+  currentSort.value = "Date";
+  sortList();
+  toggleDropdown(); 
+};
+
+const sortByRating = () => {
+  currentSort.value = "Rating";
+  sortList();
+  toggleDropdown(); 
+};
+
+const handleLike = (id) => {
+  const person = list.value.find((item) => item.id === id);
+  if (person) person.Rating += 1;
+};
+
 </script>
 
 <template>
@@ -42,24 +92,41 @@ const handleFilter = (filter) => {
         <div class="flexer_topic">
           <div class="flexer_topic_name">{{ topic }}</div>
           <div class="sorter">
-            <div><img :src="unknown" alt="" /></div>
-            <div class="rating">Rating</div>
-            <div><img :src="triangle" alt="" /></div>
+            <div class="dropdown-wrapper">
+              <div class="cursor-pointer" @click="toggleDropdown">
+                <div class="sorter">
+            <div class="cursor-pointer" @click="sortByPubDate"><img :src="unknown" alt="" /></div>
+            <div class="rating">{{ currentSort }}</div>
+            <div class="cursor-pointer" @click="sortByRating"><img :src="triangle" alt="" /></div>
+            </div>
+              </div>
+              <div v-if="isDropdownVisible" class="dropdown-menu">
+                <div class="dropdown-item" @click="sortByPubDate">Date</div>
+                <div class="dropdown-item" @click="sortByRating">Rating</div>
+              </div>
+            </div>
           </div>
           <div class="arrow">
-            <div class="arrow-cont">
+            <div class="arrow-cont mt2 cursor-pointer" @click="prevPage">
+              <img :src="arrow" alt="" style="transform: rotate(180deg)" />
+            </div>
+            <div class="pagin">{{ currentPage }}/{{ totalPages }}</div>
+            <div class="arrow-cont cursor-pointer" @click="nextPage">
               <img :src="arrow" alt="" />
             </div>
-            <div class="pagin">1/5</div>
           </div>
         </div>
         <div class="cards">
           <Card
-            v-for="person in list"
+            v-for="person in paginatedList"
+            :key="person.id"
+            :id="person.id"
             :name="person.PersonName"
             :avatar="person.Avatar"
             :pubDate="person.PubDate"
+            :rating="person.Rating"
             :comment="person.Commentary"
+            @like="handleLike"
           />
         </div>
       </div>
@@ -88,6 +155,7 @@ const handleFilter = (filter) => {
   background-position: center;
   padding-bottom: 3rem;
   position: relative;
+  min-height: 100vh;
 }
 
 .menu-cont {
@@ -104,6 +172,12 @@ const handleFilter = (filter) => {
 .hidden {
   transform: translateX(-150%);
 }
+
+.cursor-pointer:hover {
+  cursor: pointer;
+  transition: 0.4s;
+}
+
 .wrapper {
   margin-top: 1rem;
   padding: 0 8rem;
@@ -126,6 +200,10 @@ const handleFilter = (filter) => {
 }
 .ff {
   display: flex;
+}
+
+.mt2 {
+  margin-right: 110px;
 }
 .flexer2 {
   width: 0;
@@ -216,5 +294,32 @@ const handleFilter = (filter) => {
 
 .cards div {
   max-width: 500px;
+}
+
+/* Оформление для дропдауна */
+.dropdown-wrapper {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  top: 100%;
+  left: -16px;
+  width: 121%;
+  
+  text-align: center;
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
 }
 </style>
