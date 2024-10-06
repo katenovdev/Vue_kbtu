@@ -28,7 +28,7 @@ const props = defineProps({
     required: true,
   },
   rating: {
-    type: String,
+    type: Number,
     required: true,
   },
 });

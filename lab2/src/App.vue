@@ -79,6 +79,9 @@ const handleLike = (id) => {
   if (person) person.Rating += 1;
 };
 
+const handleFilter = (filter) => {
+
+}
 </script>
 
 <template>
