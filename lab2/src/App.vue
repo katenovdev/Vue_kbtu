@@ -80,8 +80,10 @@ const handleLike = (id) => {
 };
 
 const handleFilter = (filter) => {
-
-}
+  list.value = people.filter((item) => item.Topic == filter);
+  isMenuVisible.value = !isMenuVisible.value;
+  topic.value = filter;
+};
 </script>
 
 <template>
