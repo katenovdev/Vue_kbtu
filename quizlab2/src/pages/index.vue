@@ -11,29 +11,29 @@ const users = ref([
 
 const router = useRouter();
 
-function navigateToUser(userId) {
-  router.push(`/user/${userId}`);
+function goToUserDetails(id) {
+  router.push(`/user/${id}`);
+}
+
+function updateUser(updatedUser) {
+  const index = users.value.findIndex((user) => user.id === updatedUser.id);
+  if (index !== -1) {
+    users.value[index] = { ...users.value[index], ...updatedUser };
+  }
 }
 </script>
 
 <template>
   <div>
-    <h1>Users</h1>
-    <div class="user-list">
-      <UserCard
-        v-for="user in users"
-        :key="user.id"
-        :user="user"
-        @click="navigateToUser(user.id)"
-      />
-    </div>
+    <h1>User List</h1>
+    <UserCard
+      v-for="user in users"
+      :key="user.id"
+      :user="user"
+      @click="goToUserDetails(user.id)"
+    />
+    <router-view @updateUser="updateUser" />
   </div>
 </template>
 
-<style scoped>
-.user-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-</style>
+<style scoped></style>

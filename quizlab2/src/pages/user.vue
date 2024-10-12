@@ -1,23 +1,8 @@
-<template>
-  <div v-if="user">
-    <UserCard :user="user">
-      <button @click="editUser" class="edit-button">Edit</button>
-    </UserCard>
-    <p><strong>Phone:</strong> {{ user.phone }}</p>
-    <p><strong>Website:</strong> {{ user.website }}</p>
-    <button @click="goBack">Back to Users</button>
-  </div>
-  <div v-else>
-    <p>Loading user details...</p>
-  </div>
-</template>
-
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineEmits } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import UserCard from "@/components/Card.vue";
 
-// Mock data for simplicity
 const mockUserDetails = {
   1: {
     name: "John Doe",
@@ -40,12 +25,17 @@ const mockUserDetails = {
 };
 
 const user = ref(null);
+const editableUser = ref({ name: "", email: "" });
+const isEditing = ref(false);
 const route = useRoute();
 const router = useRouter();
+const emit = defineEmits(["updateUser"]);
 
-// Function to fetch user details
 function fetchUserDetails(id) {
   user.value = mockUserDetails[id] || null;
+  if (user.value) {
+    editableUser.value = { ...user.value };
+  }
 }
 
 onMounted(() => {
@@ -53,14 +43,67 @@ onMounted(() => {
   fetchUserDetails(userId);
 });
 
-function editUser() {
-  alert("Edit user functionality to be implemented!");
+function saveChanges() {
+  user.value = {
+    ...editableUser.value,
+    phone: user.value.phone,
+    website: user.value.website,
+  };
+
+  isEditing.value = false;
+}
+
+function updateUser(updatedUser) {
+  const index = users.value.findIndex((user) => user.id === updatedUser.id);
+  if (index !== -1) {
+    users.value[index] = { ...users.value[index], ...updatedUser };
+  }
 }
 
 function goBack() {
   router.push("/");
 }
 </script>
+
+<template>
+  <div v-if="user">
+    <UserCard :user="user">
+      <button @click="isEditing = !isEditing" class="edit-button">
+        {{ isEditing ? "Cancel" : "Edit" }}
+      </button>
+    </UserCard>
+
+    <div v-if="isEditing">
+      <h3>Edit User</h3>
+      <form @submit.prevent="saveChanges">
+        <div>
+          <label for="name">Name:</label>
+          <input v-model="editableUser.name" id="name" type="text" required />
+        </div>
+        <div>
+          <label for="email">Email:</label>
+          <input
+            v-model="editableUser.email"
+            id="email"
+            type="email"
+            required
+          />
+        </div>
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+
+    <div v-else>
+      <p><strong>Phone:</strong> {{ user.phone }}</p>
+      <p><strong>Website:</strong> {{ user.website }}</p>
+    </div>
+
+    <button @click="goBack">Back to Users</button>
+  </div>
+  <div v-else>
+    <p>Loading user details...</p>
+  </div>
+</template>
 
 <style scoped>
 .edit-button {
@@ -93,5 +136,22 @@ button {
 
 button:hover {
   background-color: #1976d2;
+}
+
+form {
+  margin-top: 10px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 </style>
