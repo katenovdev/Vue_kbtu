@@ -8,6 +8,15 @@ const toggleClass = () => {
   emit('toggle'); 
 }
 
+const isShow = ref(false)
+const router = useRouter();
+
+const showIt = () => {
+  isShow.value = !isShow.value  
+}
+const goTo = (path) => {
+  router.push(path); 
+}
 </script>
 
 <template>
@@ -20,10 +29,14 @@ const toggleClass = () => {
         </div>
       </div>
       <div>
-        <div class="flexer_3">
+        <div @click="showIt" class="flexer_3">
         <img :src="profile" alt="">
         </div>
       </div>
+    </div>
+    <div v-show="isShow" class="auth-dropdown">
+      <div @click="goTo('/login')" class="h_login">LOGIN</div>
+      <div @click="goTo('/registration')" class="h_reg">REGISTER</div>
     </div>
   </div>
 </template>
@@ -31,12 +44,43 @@ const toggleClass = () => {
 <style scoped>
 .header-background {
   background-color: rgba(255, 255, 255, 0.74);
+  position: relative;
+}
+.auth-dropdown {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right: 0;
+}
+.auth-dropdown>div:hover {
+  cursor: pointer;
+  transition: .4s;
+}
+.h_login {
+  display: flex;
+  justify-content: center;
+  background-color: green;
+  color: blue;
+  padding: 0.5rem;
+  border: 1px solid black;
+}
+.h_reg {
+  display: flex;
+  justify-content: center;
+  background-color: yellow;
+  color: blue;
+  padding: 0.5rem 1rem;
+  border: 1px solid black;
 }
 .flexer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
+}
+.flexer_3:hover {
+  cursor: pointer;
+  transition: .4s;
 }
 
 .flexer_1:hover {
