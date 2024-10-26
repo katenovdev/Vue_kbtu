@@ -5,8 +5,11 @@ const toggleClass = () => {
   emit("toggle");
 };
 
+const router = useRouter();
+
 const triggerFilter = (filter) => {
   emit("filter", filter);
+  router.push(`/`);
 };
 </script>
 
