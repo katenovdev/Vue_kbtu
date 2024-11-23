@@ -1,11 +1,13 @@
 <script setup>
 import star from "@/assets/star.svg";
 import { defineProps } from "vue";
+import { useStore } from "@/store";
 import profile1 from "@/assets/profile1.svg";
 import profile2 from "@/assets/profile2.svg";
 import profile3 from "@/assets/profile3.svg";
 import profile4 from "@/assets/profile4.svg";
-
+const router = useRouter();
+const store = useStore();
 const props = defineProps({
   id: {
     type: Number,
@@ -38,13 +40,17 @@ const emit = defineEmits(["like"]);
 const like = (id) => {
   emit("like", id);
 };
+const goTo = (path, id) => {
+  store.setSelectedProfile(id);
+  router.push(path);
+};
 </script>
 
 <template>
   <div class="card-cont">
     <div class="card-inner">
       <div class="card_1">
-        <div class="person">
+        <div class="person" @click="goTo('/profile', props.id)">
           <div>{{ props.name }}</div>
           <div>Today, {{ props.pubDate }}</div>
         </div>
@@ -52,9 +58,7 @@ const like = (id) => {
           <div>Rating</div>
           <div class="stars">
             <div v-for="item in [1, 2, 3, 4, 5]">
-              <span :class="item <= props.rating ? 'selectedstar' : ''"
-                >★</span
-              >
+              <span :class="item <= props.rating ? 'selectedstar' : ''">★</span>
             </div>
           </div>
         </div>
@@ -104,6 +108,11 @@ const like = (id) => {
   padding: 0.2rem;
   font-size: 20px;
   font-weight: 700;
+}
+
+.person:hover {
+  cursor: pointer;
+  transition: 0.4s;
 }
 
 .rating {

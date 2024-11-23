@@ -6,7 +6,7 @@ import triangle from "@/assets/triangle.svg";
 import arrow from "@/assets/Arrow.svg";
 import Card from "@/components/Card.vue";
 import Menu from "@/components/Menu.vue";
-import { people } from "@/composable/person.js";
+import { posts } from "@/composable/posts.js";
 import { useStore } from "@/store";
 
 const isMenuVisible = ref(false);
@@ -16,9 +16,17 @@ const currentPage = ref(1);
 const itemsPerPage = 4;
 const store = useStore();
 const counter = computed(() => store.counter);
+const people = ref([]);
 
 const topic = ref("Adventure");
 const currentSort = ref("Date");
+
+onMounted(() => {
+  people.value = store.getUsers();
+  // localStorage.setItem("posts", JSON.stringify(posts)); only first time
+  // localStorage.setItem("users", JSON.stringify(people)); only first time
+  init();
+});
 
 const sortList = () => {
   if (currentSort.value === "Date") {
@@ -29,7 +37,7 @@ const sortList = () => {
 };
 
 const init = () => {
-  list.value = people.filter((item) => item.Topic === "Adventure");
+  list.value = people.value.filter((item) => item.Topic === "Adventure");
   sortList();
 };
 
@@ -83,7 +91,7 @@ const handleLike = (id) => {
 };
 
 const handleFilter = (filter) => {
-  list.value = people.filter((item) => item.Topic == filter);
+  list.value = people.value.filter((item) => item.Topic == filter);
   isMenuVisible.value = !isMenuVisible.value;
   topic.value = filter;
 };

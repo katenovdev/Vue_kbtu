@@ -7,6 +7,9 @@ export const people = [
     Rating: 4.5,
     Commentary: "Great service, very helpful staff.",
     Topic: "Adventure",
+    password: "1111",
+    email: "profile1@gmail.com",
+    city: "Astana",
   },
   {
     id: 2,
@@ -16,6 +19,9 @@ export const people = [
     Rating: 3.8,
     Commentary: "Decent product, but shipping took too long.",
     Topic: "Adventure",
+    password: "1111",
+    email: "profile2@gmail.com",
+    city: "Astana",
   },
   {
     id: 26,
@@ -25,6 +31,9 @@ export const people = [
     Rating: 1.8,
     Commentary: "Decent product, but shipping took too long.",
     Topic: "Adventure",
+    password: "1111",
+    email: "profile3@gmail.com",
+    city: "Astana",
   },
   {
     id: 3,
@@ -34,6 +43,9 @@ export const people = [
     Rating: 4.9,
     Commentary: "Absolutely loved the experience, would recommend.",
     Topic: "Adventure",
+    password: "1111",
+    email: "profile4@gmail.com",
+    city: "Astana",
   },
   {
     id: 4,
@@ -43,6 +55,9 @@ export const people = [
     Rating: 2.5,
     Commentary: "Poor quality, not as expected.",
     Topic: "Adventure",
+    password: "1111",
+    email: "profile5@gmail.com",
+    city: "Astana",
   },
   {
     id: 5,
@@ -52,6 +67,9 @@ export const people = [
     Rating: 4.7,
     Commentary: "Great value for money, very satisfied.",
     Topic: "Nature",
+    password: "1111",
+    email: "profile6@gmail.com",
+    city: "Astana",
   },
   {
     id: 6,
@@ -61,6 +79,9 @@ export const people = [
     Rating: 3.6,
     Commentary: "It was okay, nothing special.",
     Topic: "Nature",
+    password: "1111",
+    email: "profile7@gmail.com",
+    city: "Astana",
   },
   {
     id: 7,
@@ -70,6 +91,9 @@ export const people = [
     Rating: 5.0,
     Commentary: "Amazing! Will definitely come back.",
     Topic: "Nature",
+    password: "1111",
+    email: "profile8@gmail.com",
+    city: "Astana",
   },
   {
     id: 8,
@@ -79,6 +103,9 @@ export const people = [
     Rating: 4.0,
     Commentary: "Good overall, but room for improvement.",
     Topic: "Nature",
+    password: "1111",
+    email: "profile9@gmail.com",
+    city: "Astana",
   },
   {
     id: 9,
@@ -88,6 +115,9 @@ export const people = [
     Rating: 4.2,
     Commentary: "Nice experience, friendly staff.",
     Topic: "Fashion",
+    password: "1111",
+    email: "profile10@gmail.com",
+    city: "Astana",
   },
   {
     id: 10,
@@ -97,6 +127,9 @@ export const people = [
     Rating: 2.8,
     Commentary: "Not satisfied with the quality.",
     Topic: "Fashion",
+    password: "1111",
+    email: "profile11@gmail.com",
+    city: "Astana",
   },
   {
     id: 11,
@@ -106,6 +139,9 @@ export const people = [
     Rating: 4.9,
     Commentary: "Fantastic service, will recommend to friends.",
     Topic: "Fashion",
+    password: "1111",
+    email: "profile12@gmail.com",
+    city: "Astana",
   },
   {
     id: 12,
@@ -115,6 +151,9 @@ export const people = [
     Rating: 3.5,
     Commentary: "Average, nothing special.",
     Topic: "Fashion",
+    password: "1111",
+    email: "profile13@gmail.com",
+    city: "Astana",
   },
   {
     id: 13,
@@ -124,6 +163,9 @@ export const people = [
     Rating: 4.6,
     Commentary: "Very happy with the product and service.",
     Topic: "Modern",
+    password: "1111",
+    email: "profile14@gmail.com",
+    city: "Astana",
   },
   {
     id: 14,
@@ -133,6 +175,9 @@ export const people = [
     Rating: 4.1,
     Commentary: "Good, but can improve in certain areas.",
     Topic: "Modern",
+    password: "1111",
+    email: "profile15@gmail.com",
+    city: "Astana",
   },
   {
     id: 15,
@@ -142,6 +187,9 @@ export const people = [
     Rating: 3.9,
     Commentary: "Service was nice but the product lacked quality.",
     Topic: "Modern",
+    password: "1111",
+    email: "profile16@gmail.com",
+    city: "Astana",
   },
   {
     id: 16,
@@ -151,6 +199,9 @@ export const people = [
     Rating: 5.0,
     Commentary: "Excellent experience, very professional.",
     Topic: "Modern",
+    password: "1111",
+    email: "profile17@gmail.com",
+    city: "Astana",
   },
   {
     id: 17,
@@ -160,6 +211,9 @@ export const people = [
     Rating: 4.4,
     Commentary: "Good service, but could be more responsive.",
     Topic: "Books",
+    password: "1111",
+    email: "profile18@gmail.com",
+    city: "Astana",
   },
   {
     id: 18,
@@ -169,6 +223,9 @@ export const people = [
     Rating: 2.9,
     Commentary: "Not very impressed with the overall experience.",
     Topic: "Books",
+    password: "1111",
+    email: "profile19@gmail.com",
+    city: "Astana",
   },
   {
     id: 19,
@@ -178,6 +235,9 @@ export const people = [
     Rating: 4.3,
     Commentary: "Overall good, a few areas need work.",
     Topic: "Books",
+    password: "1111",
+    email: "profile20@gmail.com",
+    city: "Astana",
   },
   {
     id: 20,
@@ -187,5 +247,8 @@ export const people = [
     Rating: 4.8,
     Commentary: "Really great product and excellent service.",
     Topic: "Books",
+    password: "1111",
+    email: "profile21@gmail.com",
+    city: "Astana",
   },
 ];

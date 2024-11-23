@@ -15,7 +15,9 @@ const store = useStore();
 //     default: false,
 //   },
 // });
-const profile = computed(() => store.user);
+const profile = computed(() => store.selectedProfile);
+const isPersonalProfile = computed(() => store.isPersonalProfile);
+const posts = computed(() => store.profilePosts);
 
 // const list = profile.posts;
 const list = ref([]);
@@ -36,8 +38,6 @@ const paginatedList = computed(() => {
 });
 
 const editableProfile = ref({ ...profile.value });
-
-const isReadOnly = computed(() => profile.value?.isPersonalProfile);
 
 watch(
   () => profile.value,
@@ -62,7 +62,7 @@ const handleToggle = () => {
   <div>
     <Header @toggle="handleToggle" class="header" />
     <div class="profile-page">
-      <div class="profile-header">My profile</div>
+      <div v-if="isPersonalProfile" class="profile-header">My profile</div>
 
       <div class="profile-content">
         <div class="left-panel">
@@ -75,13 +75,16 @@ const handleToggle = () => {
             <div class="profile-name">{{ profile?.name }}</div>
             <div class="age-label">
               <p>Age:</p>
-              <div>100</div>
+              <div>22</div>
+            </div>
+              <div class="age-label">
+              <p>Name: {{profile.PersonName}}</p>
             </div>
             <div class="age-label">
               <p>City:</p>
               <div>{{ editableProfile.city }}</div>
             </div>
-            <div class="address-label">
+            <div v-if="isPersonalProfile" class="address-label">
               <input v-model="city" placeholder="Enter location" />
             </div>
             <div class="activity-label">Active now</div>
@@ -105,15 +108,12 @@ const handleToggle = () => {
         </div>
       </div>
       <div class="cards">
-        <!-- <PeopleCard
-        v-for="person in profile.posts"
-        :key="person.id"
-        :name="person.PersonName"
-        :avatar="person.Avatar"
-        :pubDate="person.PubDate"
-        :comment="person.Commentary"
-        :rating="person.Rating"
-      ></PeopleCard> -->
+        <div v-for="post in posts" :key="post.createdDate" class="card">
+          <p>{{ post.text }}</p>
+          <small
+            >Posted on: {{ new Date(post.createdDate).toLocaleString() }}</small
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -126,15 +126,52 @@ const handleToggle = () => {
   padding: 5rem 10rem;
 }
 .cards {
-  line-height: 2.6;
-  margin-top: 4rem;
-  margin-bottom: 1rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem 4rem;
+  gap: 16px;
   justify-content: center;
-  position: relative;
+  padding: 16px;
 }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  width: 300px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.card p {
+  margin: 0 0 8px;
+  color: #555;
+  font-size: 1rem;
+}
+
+.card small {
+  display: block;
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none; /* Убираем стандартный вид */
@@ -212,7 +249,7 @@ input[type="number"] {
   align-items: center;
 }
 .age-label p {
-  line-height: 3;
+  line-height: 1;
   margin-right: 10px;
 }
 .age-label input {
