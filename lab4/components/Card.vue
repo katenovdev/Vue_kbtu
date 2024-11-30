@@ -62,7 +62,7 @@ const goTo = (path, id) => {
             </div>
           </div>
         </div>
-        <div class="photo">
+        <div class="photo cursor-pointer" @click="goTo('/statistic', props.id)">
           <img :src="profile1" />
         </div>
       </div>
@@ -78,6 +78,11 @@ const goTo = (path, id) => {
 .card-cont {
   display: flex;
   max-width: 400px !important;
+}
+
+.cursor-pointer:hover {
+  cursor: pointer;
+  transition: 0.4s;
 }
 
 .card-inner {

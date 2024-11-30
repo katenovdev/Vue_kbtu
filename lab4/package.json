@@ -10,10 +10,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "apexcharts": "^4.0.0",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.4",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vue3-apexcharts": "^1.8.0"
   },
   "devDependencies": {
     "vuex": "^4.1.0"

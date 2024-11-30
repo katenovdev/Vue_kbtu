@@ -39,6 +39,7 @@ export const useStore = defineStore("counter", {
 
       if (user) {
         this.user = user;
+        this.setSelectedProfile(user.id)
         return user;
       } else {
         return false;
