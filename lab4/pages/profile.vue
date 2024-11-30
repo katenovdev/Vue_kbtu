@@ -101,7 +101,7 @@ const handleToggle = () => {
         <div class="right-panel">
           <div class="button-container">
             <button class="btn-statistic">Statistic</button>
-            <button class="btn-save" @click="saveProfile" v-if="!isReadOnly">
+            <button v-if="isPersonalProfile" class="btn-save" @click="saveProfile">
               SAVE
             </button>
           </div>

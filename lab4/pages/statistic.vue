@@ -3,7 +3,7 @@ import Header from "@/components/Header.vue";
 import { useStore } from "@/store";
 import { useRouter } from "vue-router";
 import arrow from "@/assets/Arrow.svg";
-import apexchart, { VueApexChartsComponent } from 'vue3-apexcharts'
+import apexchart from "vue3-apexcharts";
 import { ref, computed, watch } from "vue";
 
 const store = useStore();
@@ -17,65 +17,75 @@ const chartRef = ref(null);
 
 const posts = computed(() => store.profilePosts);
 
-const chartOptions = ref({
-  chart: {
-    id: "posts-bar-chart",
-  },
-  xaxis: {
-    categories: [],
-    title: {
-      text: "Дата создания",
-    },
-  },
-  yaxis: {
-    title: {
-      text: "Количество постов",
-    },
-  },
-  title: {
-    text: "Количество постов по дате",
-    align: "center",
-  },
-});
+const chartOptions = computed(() => {
+  const grouped: { [key: string]: number } = {};
+  const dates: string[] = [];
 
-const series = ref([
-  {
-    name: "Количество постов",
-    data: [],
-  },
-]);
-
-const processPosts = (posts) => {
-  const grouped = {};
-
-  for (const post of posts) {
+  // Группировка по датам
+  for (const post of posts.value) {
     const date = new Date(post.createdDate).toISOString().split("T")[0];
-    grouped[date] = (grouped[date] || 0) + 1;
+    if (!grouped[date]) {
+      grouped[date] = 0;
+      dates.push(date); // Добавляем уникальную дату в список категорий
+    }
+    grouped[date] += 1;
   }
 
-  chartRef.value?.updateOptions({
-    xaxis: {
-      categories: Object.keys(grouped),
+  return {
+    chart: {
+      id: "posts-bar-chart",
+      height: 162,
+      type: "bar",
+      parentHeightOffset: 0,
+      toolbar: {
+        show: false,
+      },
     },
-  });
+    plotOptions: {
+      bar: {
+        columnWidth: "15%",
+      },
+    },
+    xaxis: {
+      categories: dates, 
+      title: {
+        text: "Дата создания",
+      },
+    },
+    yaxis: {
+      title: {
+        text: "Количество постов",
+      },
+    },
+    title: {
+      text: "Количество постов по дате",
+      align: "center",
+    },
+  };
+});
 
-  chartRef.value?.updateSeries([
+const series = computed(() => {
+  const grouped: { [key: string]: number } = {};
+
+  // Группировка данных
+  for (const post of posts.value) {
+    const date = new Date(post.createdDate).toISOString().split("T")[0];
+    if (!grouped[date]) {
+      grouped[date] = 0;
+    }
+    grouped[date] += 1;
+  }
+
+  // Преобразуем данные в формат, подходящий для ApexCharts
+  const data = Object.keys(grouped).map((date) => grouped[date]);
+
+  return [
     {
       name: "Количество постов",
-      data: Object.values(grouped),
+      data, // Данные для оси Y
     },
-  ]);
-};
-
-watch(
-  posts,
-  (newPosts) => {
-    processPosts(newPosts);
-  },
-  { immediate: true }
-);
-
-
+  ];
+});
 </script>
 
 <template>
