@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import Header from "@/components/Header.vue";
-import Menu from "@/components/Menu.vue";
 import { useStore } from "@/store";
 
 const isMenuVisible = ref(false);
 const store = useStore();
+const router = useRouter();
 // const props = defineProps({
 //   profile: {
 //     type: Object,
@@ -18,6 +18,8 @@ const store = useStore();
 const profile = computed(() => store.selectedProfile);
 const isPersonalProfile = computed(() => store.isPersonalProfile);
 const posts = computed(() => store.profilePosts);
+const authProfile = computed(() => store.user);
+const isFriend = computed(() => store.isFriend);
 
 // const list = profile.posts;
 const list = ref([]);
@@ -39,6 +41,11 @@ const paginatedList = computed(() => {
 
 const editableProfile = ref({ ...profile.value });
 
+const subsribe = (profileId: number, toSubcribeProfileId: number) => {
+  store.subscribe(profileId, toSubcribeProfileId);
+  isFriend.value = true
+};
+
 watch(
   () => profile.value,
   (newProfile) => {
@@ -55,6 +62,11 @@ const saveProfile = () => {
 
 const handleToggle = () => {
   isMenuVisible.value = !isMenuVisible.value;
+};
+
+const goTo = (path, id) => {
+  store.setSelectedProfile(id);
+  router.push(path);
 };
 </script>
 
@@ -77,8 +89,8 @@ const handleToggle = () => {
               <p>Age:</p>
               <div>22</div>
             </div>
-              <div class="age-label">
-              <p>Name: {{profile.PersonName}}</p>
+            <div class="age-label">
+              <p>Name: {{ profile?.PersonName }}</p>
             </div>
             <div class="age-label">
               <p>City:</p>
@@ -100,8 +112,30 @@ const handleToggle = () => {
 
         <div class="right-panel">
           <div class="button-container">
-            <button class="btn-statistic">Statistic</button>
-            <button v-if="isPersonalProfile" class="btn-save" @click="saveProfile">
+            <button
+              @click="goTo('/statistic', profile?.id)"
+              class="btn-statistic"
+            >
+              Statistic
+            </button>
+            <button
+              v-if="!isFriend && !isPersonalProfile && authProfile"
+              @click="subsribe(authProfile?.id, profile?.id)"
+              class="btn-follow"
+            >
+              Follow 
+            </button>
+            <button
+              v-else-if="isFriend && !isPersonalProfile && authProfile"
+              class="btn-follow"
+            >
+              Friend {{ isPersonalProfile }} {{ store.isPersonalProfile }}
+            </button>
+            <button
+              v-if="isPersonalProfile"
+              class="btn-save"
+              @click="saveProfile"
+            >
               SAVE
             </button>
           </div>
@@ -140,7 +174,7 @@ const handleToggle = () => {
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
-  width: 300px; 
+  width: 300px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -310,6 +344,20 @@ input[type="number"] {
 .btn-statistic,
 .btn-save {
   background-color: #4dc3ff;
+  font-family: "Inknut Antiqua";
+  line-height: 1;
+  font-size: 25px;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 70%;
+}
+
+.btn-follow {
+  background-color: #51ed49;
   font-family: "Inknut Antiqua";
   line-height: 1;
   font-size: 25px;

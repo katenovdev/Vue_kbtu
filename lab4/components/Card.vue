@@ -1,13 +1,10 @@
 <script setup>
-import star from "@/assets/star.svg";
 import { defineProps } from "vue";
 import { useStore } from "@/store";
 import profile1 from "@/assets/profile1.svg";
-import profile2 from "@/assets/profile2.svg";
-import profile3 from "@/assets/profile3.svg";
-import profile4 from "@/assets/profile4.svg";
+
 const router = useRouter();
-const store = useStore();
+
 const props = defineProps({
   id: {
     type: Number,
@@ -36,7 +33,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["like"]);
-
+const store = useStore();
 const like = (id) => {
   emit("like", id);
 };

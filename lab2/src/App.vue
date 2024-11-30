@@ -126,7 +126,7 @@ const handleFilter = (filter) => {
             v-for="person in paginatedList"
             :key="person.id"
             :id="person.id"
-            :name="person.PersonName"
+            :name="person?.PersonName"
             :avatar="person.Avatar"
             :pubDate="person.PubDate"
             :rating="person.Rating"
