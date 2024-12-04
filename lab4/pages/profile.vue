@@ -129,7 +129,7 @@ const goTo = (path, id) => {
               v-else-if="isFriend && !isPersonalProfile && authProfile"
               class="btn-follow"
             >
-              Friend {{ isPersonalProfile }} {{ store.isPersonalProfile }}
+              Friend
             </button>
             <button
               v-if="isPersonalProfile"
@@ -137,6 +137,13 @@ const goTo = (path, id) => {
               @click="saveProfile"
             >
               SAVE
+            </button>
+            <button
+              v-if="isPersonalProfile"
+              class="btn-follow"
+              @click="goTo('/friends')"
+            >
+              FRIENDS
             </button>
           </div>
         </div>
